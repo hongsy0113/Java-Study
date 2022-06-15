@@ -1,5 +1,7 @@
 package PhoneBookProject;
 
+import java.util.Scanner;
+
 class PhoneInfo {
     private String name;
     private String phoneNumber;
@@ -26,12 +28,29 @@ class PhoneInfo {
 
 public class PhoneBook {
     public static void main(String[] args) {
-        PhoneInfo phoneInfo1 = new PhoneInfo("홍성윤", "010-1111-1111", "2022-06-15");
-        PhoneInfo phoneInfo2 = new PhoneInfo("홍성온", "010-1111-2222", "2022-06-15");
-        PhoneInfo phoneInfo3 = new PhoneInfo("홍성주", "010-1111-3333", "2022-06-15");
 
-        phoneInfo1.showInfo();
-        phoneInfo2.showInfo();
-        phoneInfo3.showInfo();
+        Scanner keyboard = new Scanner(System.in);
+        while (true) {
+            System.out.println("1. 데이터 입력");
+            System.out.println("2. 프로그램 종료");
+            System.out.print("선택 : ");
+            int choice = keyboard.nextInt();
+            keyboard.nextLine();
+            if (choice == 2) break;
+
+            System.out.print("이름 : ");
+            String name = keyboard.nextLine();
+            System.out.print("전화번호 : ");
+            String phoneNumber = keyboard.nextLine();
+            System.out.print("생년월일 : ");
+            String birthday = keyboard.nextLine();
+
+            // 인스턴스 생성
+            PhoneInfo phoneInfo = new PhoneInfo(name, phoneNumber, birthday);
+
+            System.out.println("입력된 정보 출력...");
+            phoneInfo.showInfo();
+        }
+
     }
 }
