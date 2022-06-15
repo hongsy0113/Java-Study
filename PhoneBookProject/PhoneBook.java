@@ -3,9 +3,8 @@ package PhoneBookProject;
 import java.util.Scanner;
 
 class PhoneInfo {
-    private String name;
-    private String phoneNumber;
-    private String birthday;
+    protected String name;
+    protected String phoneNumber;
 
     public String getName() {
         return name;
@@ -23,30 +22,49 @@ class PhoneInfo {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getBirthday() {
-        return birthday;
-    }
-
-    public void setBirthday(String birthday) {
-        this.birthday = birthday;
-    }
-
     public PhoneInfo(String name, String phoneNumber) {
         this.name = name;
         this.phoneNumber = phoneNumber;
-        this.birthday = "---";
-    }
-
-    public PhoneInfo(String name, String phoneNumber, String birthday) {
-        this.name = name;
-        this.phoneNumber = phoneNumber;
-        this.birthday = birthday;
     }
 
     public void showInfo (){
         System.out.println("이름 : " + name);
         System.out.println("전화번호 : " + phoneNumber);
-        System.out.println("생년월일 : " + birthday);
+    }
+
+}
+
+class PhoneUnivInfo extends PhoneInfo {
+
+    private String major;
+    private int grade;
+
+    public PhoneUnivInfo (String name, String phoneNumber, String major, int grade){
+        super(name, phoneNumber);
+        this.major = major;
+        this.grade = grade;
+    }
+
+    public void showInfo(){
+        System.out.println("이름 : " + super.name);
+        System.out.println("전화번호 : " + super.phoneNumber);
+        System.out.println("전공 : " + major);
+        System.out.println("학년 : " + grade);
+    }
+}
+
+class PhoneCompanyInfo extends PhoneInfo {
+    private String company;
+
+    public PhoneCompanyInfo(String name, String phoneNumber, String company) {
+        super(name, phoneNumber);
+        this.company = company;
+    }
+
+    public void showInfo(){
+        System.out.println("이름 : " + super.name);
+        System.out.println("전화번호 : " + super.phoneNumber);
+        System.out.println("회사 : " + company);
     }
 }
 
@@ -55,19 +73,75 @@ class PhoneBookManager {
     int cnt = 0;
     Scanner keyboard = new Scanner(System.in);
 
+    // 입력 받기 - 일반
+    private PhoneInfo getInfoBasic (){
+        System.out.print("이름 : ");
+        String name = keyboard.nextLine();
+        System.out.print("전화번호 : ");
+        String phoneNumber = keyboard.nextLine();
+
+        return new PhoneInfo(name, phoneNumber);
+    }
+
+    // 입력받기 - 대학
+    private PhoneInfo getInfoUniv(){
+        System.out.print("이름 : ");
+        String name = keyboard.nextLine();
+        System.out.print("전화번호 : ");
+        String phoneNumber = keyboard.nextLine();
+        System.out.print("전공: ");
+        String major = keyboard.nextLine();
+        System.out.print("학년 : ");
+        int grade = keyboard.nextInt();
+
+        return new PhoneUnivInfo(name, phoneNumber, major, grade);
+    }
+
+    // 입력받기 - 회사
+    private PhoneInfo getInfoCompany(){
+        System.out.print("이름 : ");
+        String name = keyboard.nextLine();
+        System.out.print("전화번호 : ");
+        String phoneNumber = keyboard.nextLine();
+        System.out.print("회사: ");
+        String company = keyboard.nextLine();
+
+
+        return new PhoneCompanyInfo(name, phoneNumber, company);
+    }
+
+
+
     // 저장
     public void save() {
 
         System.out.println("데이터 입력을 시작합니다..");
 
-        System.out.print("이름 : ");
-        String name = keyboard.nextLine();
-        System.out.print("전화번호 : ");
-        String phoneNumber = keyboard.nextLine();
-        System.out.print("생년월일 : ");
-        String birthday = keyboard.nextLine();
+        System.out.println("1. 일반, 2. 대학, 3. 회사");
+        int choice = keyboard.nextInt();
+        keyboard.nextLine();
 
-        phoneInfoArr [cnt++] = new PhoneInfo(name, phoneNumber, birthday);
+        switch (choice)
+        {
+            case 1:
+                phoneInfoArr[cnt++] = getInfoBasic();
+                break;
+            case 2:
+                phoneInfoArr[cnt++] = getInfoUniv();
+                break;
+            case 3:
+                phoneInfoArr[cnt++] = getInfoCompany();
+                break;
+        }
+
+//        System.out.print("이름 : ");
+//        String name = keyboard.nextLine();
+//        System.out.print("전화번호 : ");
+//        String phoneNumber = keyboard.nextLine();
+//        System.out.print("생년월일 : ");
+//        String birthday = keyboard.nextLine();
+//
+//        phoneInfoArr [cnt++] = new PhoneInfo(name, phoneNumber);
 
 
         System.out.println("데이터 입력 완료");
@@ -117,6 +191,7 @@ class PhoneBookManager {
             }
             cnt--;
         }
+        else System.out.println("없는 이름입니다!");
 
     }
 }
